@@ -12,3 +12,4 @@ Step 5: Open URL "http://localhost:8983/solr/" to check solr is working
 #Search page
 
 1. Open "InfoSecUI\InfoSecSearchEngineUI.html in Internet Explorer <br/>
+2. search any value this will query apache solr and present the search results.

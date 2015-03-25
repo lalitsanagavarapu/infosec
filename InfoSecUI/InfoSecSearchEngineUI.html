@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
+
+</head>
+
+<body>
+
+<div ng-app="myApp" ng-controller="customersCtrl"> 
+<div class="row" style="padding-left:40px;">
+<form class="form-inline">
+<br/>
+
+  <div class="col-lg-6">
+    <div class="input-group">
+	  <input type="text" ng-model="queryText" class="form-control" placeholder="Search for...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-click="getSearch(1);">Search</button>
+      </span>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+  </form>
+  </div>
+<br/>
+<div style="padding-left:40px;" >
+<h5>About {{ names.response.numFound }} results ({{names.responseHeader.QTime}} seconds)  </h5>
+</div>
+<div style="width:800px;">
+<ul>
+  <dl ng-repeat="x in names.response.docs">
+    <dt><a href="{{ x.url }}" >{{ x.title }} </a></dt>
+	<dd>{{ x.meta }}</dd>
+	
+  </dl>
+</ul>
+
+</div>
+
+<pagination total-items="bigTotalItems" ng-change="pageChanged()" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+
+
+<script>
+var app = angular.module('myApp', ['ui.bootstrap']);
+app.controller('customersCtrl', function($scope, $http) {
+
+$scope.totalItems = 0;
+  $scope.currentPage = 1;
+  $scope.maxSize = 10;
+  $scope.bigTotalItems = 500;
+  $scope.bigCurrentPage = 1;
+$scope.getSearch=function(page) {
+  var query=$scope.queryText;
+  $scope.bigCurrentPage=page;
+  $http.get("http://localhost:8983/solr/select/?q="+query+"&wt=json&start="+(page*10))
+  .success(function (response) {$scope.names = response;});
+  },
+  $scope.pageChanged = function() {
+	$scope.getSearch($scope.bigCurrentPage);
+    $log.log('Page changed to: ' + $scope.bigCurrentPage);
+  };
+
+  
+  
+});
+</script>
+
+</body>
+</html>

@@ -37,7 +37,7 @@
   </div>
 <br/>
 <div class="hideOnStart" style="padding-left:40px;visibility:hidden;" >
-<h5>About {{ names.response.numFound }} results ({{names.responseHeader.QTime}} seconds)  </h5>
+<h5>About {{ names.response.numFound }} results ({{names.responseHeader.QTime/1000}} seconds)  </h5>
 </div>
 <div style="width:800px;">
 <ul>
@@ -49,7 +49,7 @@
 </ul>
 
 </div>
-<div id="pagination" class="hideOnStart"  style="visibility:hidden;">
+<div id="pagination" class="hideOnStart"  style="visibility:hidden; padding-left:100px;">
 <pagination total-items="bigTotalItems" ng-change="pageChanged()" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
 </div>
 

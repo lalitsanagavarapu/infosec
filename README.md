@@ -19,4 +19,4 @@ Step 7: Open URL "http://localhost:8983/solr/" to check solr is working
 #Delete indexed files
 
 1. "localhost:8983/solr/update?stream.body=<delete><query>*:*</query></delete>"
-2. "localhost:8983/solr/update?stream.body=commit/>"
+2. "localhost:8983/solr/update?stream.body=<commit/>"

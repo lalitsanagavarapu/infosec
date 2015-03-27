@@ -6,8 +6,8 @@ searchengine
 Step 1: Open command prompt "run-->cmd" <br/>
 Step 2: Switch to directory "infosec\apache-solr\example" <br/>
 Step 3: Execute "java -jar start.jar" , this will start apache solr <br/>
-Step 4  Go to directory exampledocs "cd exampledocs"
-Step 5  Unzip file FinalTransformed.zip
+Step 4  Go to directory exampledocs "cd exampledocs" <br/>
+Step 5  Unzip file FinalTransformed.zip <br/>
 Step 6: Index data file "java -Xms1g -jar post.jar exampledocs\FinalTransformed.xml" <br/>
 Step 7: Open URL "http://localhost:8983/solr/" to check solr is working 
 

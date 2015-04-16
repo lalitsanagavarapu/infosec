@@ -4,6 +4,8 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:template match="/">
 <add>
     <xsl:for-each select="FILE/PAGE">
+	<xsl:choose>
+	<xsl:when test="((TITLE !='') and (BODY!=''))">
     <doc>
       <field name="id"><xsl:value-of select="id"/></field>
 	  <field name="url"><xsl:value-of select="URL"/></field>
@@ -12,6 +14,8 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	  <field name="body"><xsl:value-of select="BODY"/></field>
 	  <field name="lastmodified"><xsl:value-of select="LASTMODIFIED"/></field>
     </doc>
+	</xsl:when>
+	</xsl:choose>
     </xsl:for-each>
 </add>
 </xsl:template>

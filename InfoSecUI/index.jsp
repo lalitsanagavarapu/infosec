@@ -9,6 +9,11 @@
 <link rel="stylesheet" href="bootstrap-theme.min.css">
 <script src="bootstrap.min.js"></script>
 <script src="ui-bootstrap-tpls-0.12.1.min.js"></script>
+ <script src="underscore-1.2.3.js"></script>
+        <script src="underscore.string-2.0.0.js"></script>
+        <script src="porter-stemmer.js"></script>
+        <script src="sum.js"></script>
+
 <title>Information Security Search Engine</title>
 <style>
 .url { font-size:12px; color:#006621; }
@@ -28,7 +33,9 @@ app.controller('customersCtrl', function($scope, $http) {
     $scope.bigTotalItems = 500;
     $scope.bigCurrentPage = 1;
     $scope.getSearch = function(page) {
-            var query = $scope.queryText;
+		
+            
+			var query = $scope.queryText;
             $scope.bigCurrentPage = page;
             $('.hideOnStart').css("visibility", "visible");
             $http.get("http://localhost:8983/solr/select/?q=" + query + "&wt=json&start=" + (page * 10))
@@ -59,6 +66,8 @@ app.controller('customersCtrl', function($scope, $http) {
                     }, 10);
 
                 });
+				
+
         },
 		
         $scope.pageChanged = function() {
@@ -66,7 +75,21 @@ app.controller('customersCtrl', function($scope, $http) {
             $log.log('Page changed to: ' + $scope.bigCurrentPage);
         },
 
-        $scope.getSummary = function(textBody) {
+		$scope.getSummary = function(textBody) {
+			var keywords = $scope.queryText.split(" ");
+			
+			 var abstract = new sum({ 'corpus': textBody,
+			
+			//'nSentences': 1,
+			'nWords': 50,
+			'emphasise': keywords
+		  });
+		  
+		  return abstract.summary;
+		},
+		
+		
+        $scope.getSummary1 = function(textBody) {
             var regexSentence = new RegExp("\'(?!(s|t|re|m)( |$))|\\.$|\\. |\\.{2,}|©|`|~|!|@|#|\\$|%|\\^|\\*|\\(|\\)|(^|[^\\w])-+|-+($|[^\\w])|_|=|\\+|\\[|\\]|\\{|\\}|<|>|\\\\|\\||/|;|:|\"|•|–|,|\\?|×|！|·|…|—|（|）|、|：|；|‘|’|“|”|《|》|，|。|？");
             var sentanceArray = textBody.split(regexSentence);
             var len = sentanceArray.length;
@@ -101,6 +124,7 @@ app.controller('customersCtrl', function($scope, $http) {
 
 </head>
 <body>
+
 <div style="width:100%; height:70px; background-color:#F1F1F1; position:absolute; "><div style="background-image:url(infosec-logo.png); background-repeat:no-repeat; width:100px;height:100px; margin-top:8px; margin-left:5px;"></div></div>
 <div ng-app="myApp" ng-controller="customersCtrl"> 
 <div class="row" style="padding-left:40px;">
